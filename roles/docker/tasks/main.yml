@@ -1,0 +1,38 @@
+---
+- name: Add Docker CE repository
+  get_url:
+    url: 'https://download.docker.com/linux/centos/docker-ce.repo'
+    dest: /etc/yum.repos.d/docker-ce.repo
+
+- name: Install Docker
+  package: 
+    name: docker-ce
+    state: latest
+
+- name: Start Docker on boot
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Add user to run Docker containers with
+  user:
+    name: "{{ username }}"
+    comment: Docker user to run containers
+    append: true
+    state: present
+    groups: docker
+
+- name: Enable epel-release
+  package:
+    name: epel-release
+    state: latest
+
+- name: Install python-pip
+  package:
+    name: python-pip
+    state: latest 
+
+- name: Install docker python SDK
+  pip:
+    name: docker

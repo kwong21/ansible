@@ -1,0 +1,80 @@
+---
+- name: Create /opt/traefik
+  file:
+    path: /opt/traefik
+    state: directory
+
+- name: Create /opt/traefik/logs/
+  file:
+    path: /opt/traefik/logs
+    state: directory
+
+- name: Create /opt/traefik/acme.json
+  file:
+    path: /opt/traefik/acme.json
+    state: touch
+    mode: '0600'
+
+- name: Create traefik external docker network
+  docker_network:
+    name: traefik
+
+- name: Deploy Traefik container
+  docker_container:
+    name: traefik
+    image: traefik:v2.2
+    state: started
+    restart_policy: always
+    memory: 128M
+    memory_swap: 200M
+    command: [
+    # Logging 
+    "--log.level=DEBUG",
+    "--log.filePath=/logs/traefik.log",
+    "--log.format=json",
+    # Dashboard
+    "--api=true",
+    "--api.dashboard=true",
+    "--api.insecure=true",
+    # Providers
+    "--providers.docker=true", 
+    "--providers.docker.exposedbydefault=false", 
+    # Entrypoints
+    "--entrypoints.web.address=:80",
+    "--entryPoints.webs-secure.address=:443",
+    #TLS
+    "--certificatesresolvers.le.acme.email=kelvin@deephalf.ca",
+    "--certificatesresolvers.le.acme.storage=acme.json",
+    "--certificatesresolvers.le.acme.tlschallenge=true",
+    "--certificatesresolvers.le.acme.httpchallenge=true",
+    "--certificatesresolvers.le.acme.httpchallenge.entryPoint=web",
+    ]
+    ports:
+        - "80:80"
+        - "443:443"
+        - "8080:8080"
+    volumes:
+        - "/var/run/docker.sock:/var/run/docker.sock:ro"
+        - "/opt/traefik/acme.json:/acme.json"
+        - "/opt/traefik/logs/:/logs"
+    labels:
+        traefik.docker.network: "traefik"
+        traefik.enable: "true"
+        # Re-direct HTTP to HTTPS
+        traefik.http.routers.http_catchall.rule: "HostRegexp(`{any:.+}`)"
+        traefik.http.routers.http_catchall.entrypoints: "web"
+        traefik.http.routers.http_catchall.middlewares: "https_redirect"
+        traefik.http.middlewares.https_redirect.redirectscheme.scheme: "https"
+        traefik.http.middlewares.https_redirect.redirectscheme.permanent: "true"
+        # Dashboard
+        traefik.http.routers.dashboard.rule: "Host(`{{ hostname }}`) && PathPrefix(`/api`) || PathPrefix(`/dashboard`)"
+        traefik.http.routers.dashboard.service: "api@internal"
+        traefik.http.routers.dashboard.middlewares: "auth"
+        traefik.http.routers.dashboard.tls: "true"
+        traefik.http.routers.dashboard.tls.certresolver: "le"
+        traefik.http.middlewares.auth.basicauth.users: "kelvin:$apr1$rhf3knz6$MFSeKXvWFFeTEFQR1EN8t/"
+    networks_cli_compatible: yes
+    networks:
+      - name: traefik
+  tags:
+    - deploy_traefik_container

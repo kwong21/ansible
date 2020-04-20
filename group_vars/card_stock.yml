@@ -1,0 +1,3 @@
+hostname: card-stock.shibatek.ca
+mysql_database: cardStock
+mysql_user: card-stock
