@@ -67,7 +67,7 @@
     - name: Deploy card-stock application
       docker_container:
         name: card-stock
-        image: "us.gcr.io/tools96810d6b/card-stock:1.0.2"
+        image: "us.gcr.io/tools96810d6b/card-stock:{{ version }}"
         state: started
         restart_policy: always
         volumes:
@@ -80,6 +80,7 @@
           EBAY_APP_ID: "{{ ebay_app_id }}"
           SQLALCHEMY_DATABASE_URI: "{{ sqlalchemy_database_uri }}"
           REDIRECT_URI: "https://{{ hostname }}/callback"
+          SMTP_PASSWORD: "{{ smtp_password }}"
         labels:
           traefik.enable: "true"
           traefik.http.routers.card-stock.rule: "Host(`{{ hostname }}`)"
