@@ -1,0 +1,5 @@
+shibatek_release_bucket:  https://shibatek-releases.s3-us-west-2.amazonaws.com/mailgun-sender
+mailgun_sender_install_path: /opt/mailgun-sender/
+mailgun_sender_binary: mailgun-sender
+mailgun_release_binary: mailgun-sender-linux-amd64-latest.tar.gz
+mailgun_sha1_source: mailgun-sender-linux-amd64.sha1

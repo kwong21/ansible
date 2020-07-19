@@ -1,0 +1,9 @@
+---
+- hosts: baremetal
+  become: yes
+  roles:
+    - role: create_user
+      tags: [create_user]
+      
+    - role: fail2ban
+      tags: [fail2ban]

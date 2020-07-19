@@ -1,0 +1,13 @@
+- name: Add user 'kelvin'
+  user:
+    name: "{{ user }}"
+    groups: wheel
+    password: "{{ password }}"
+    create_home: true
+    comment: Created by Ansible
+
+- name: Set authorized key for 'kelvin'
+  authorized_key:
+    user: "{{ user }}"
+    state: present
+    key: "{{ lookup('file', '/cygdrive/g/gcp/ssh_keys/kelvin/id_rsa.pub') }}"

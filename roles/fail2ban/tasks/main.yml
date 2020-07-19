@@ -1,0 +1,6 @@
+---
+# Set up fail2ban
+- include_tasks: fail2ban.yml
+
+# Set up mailgun-sender
+- include_tasks: mailgun_sender.yml

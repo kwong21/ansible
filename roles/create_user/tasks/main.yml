@@ -1,0 +1,4 @@
+# disable sudo
+- include_tasks: sudo.yml
+# create user
+- include_tasks: create_user.yml

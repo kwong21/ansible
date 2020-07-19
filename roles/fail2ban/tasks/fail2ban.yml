@@ -1,0 +1,21 @@
+---
+
+- name: Enable epel-release
+  package:
+    name: epel-release
+    state: latest
+
+- name: Install fail2ban from repo
+  package:
+    name: fail2ban
+    state: latest
+
+- name: Enable fail2ban service
+  service:
+    name: fail2ban
+    enabled: yes
+
+- name: Copy default jail.local configs
+  copy:
+    src: fail2ban/jail.local
+    dest: /etc/fail2ban/jail.d/01-sshd.conf

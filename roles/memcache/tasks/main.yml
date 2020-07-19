@@ -1,0 +1,15 @@
+---
+
+- name: Install memcached and memcached-tools from repo
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - memcached
+    - libmemcached
+
+- name: Start memcached on boot
+  service:
+    name: memcached
+    state: started
+    enabled: yes

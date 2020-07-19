@@ -1,0 +1,17 @@
+- name: make sure wheel exists
+  group:
+    name: wheel
+    state: present
+
+- name: make sure sudo is installed
+  package:
+    name: sudo
+    state: present
+
+- name: disallow root SSH access
+  lineinfile: 
+    dest: /etc/ssh/sshd_config
+    regex: "^PermiteRootLogin"
+    line: "PermitRootLogin no"
+    state: present
+  notify: restart ssh

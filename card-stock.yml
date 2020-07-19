@@ -1,4 +1,13 @@
 ---
+- name: Debug
+  hosts: all
+  tasks:
+    - name: Dump variables
+      debug:
+        msg: "Memcached server: {{ groups['memcache'][0] }}"
+  tags:
+    - debug
+  
 - name: Install Docker on hosts
   hosts: card_stock
   become: yes
@@ -81,6 +90,7 @@
           SQLALCHEMY_DATABASE_URI: "{{ sqlalchemy_database_uri }}"
           REDIRECT_URI: "https://{{ hostname }}/callback"
           SMTP_PASSWORD: "{{ smtp_password }}"
+          MEMCACHED_SERVERS: "{{ groups['memcache'][0] }}"
         labels:
           traefik.enable: "true"
           traefik.http.routers.card-stock.rule: "Host(`{{ hostname }}`)"
@@ -94,3 +104,11 @@
 
   tags:
     - deploy_app_container
+
+- name: Install memcached  on hosts
+  hosts: memcache
+  become: yes
+  roles:
+    - memcache
+  tags:
+    - deploy_memcached 

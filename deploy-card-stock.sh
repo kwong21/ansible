@@ -31,4 +31,4 @@ if [ -z "${VER}" ]; then
     usage
 fi
 
-ansible-playbook -i production.ini card-stock.yml "$TAG" --extra-vars "version=$VER"
+ansible-playbook -i production.ini card-stock.yml "$TAG" --extra-vars "version=$VER" 
