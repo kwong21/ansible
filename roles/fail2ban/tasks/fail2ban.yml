@@ -1,9 +1,10 @@
 ---
-
+  
 - name: Enable epel-release
   package:
     name: epel-release
     state: latest
+  when: ansible_distribution == "CentOS"
 
 - name: Install fail2ban from repo
   package:

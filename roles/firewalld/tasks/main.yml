@@ -1,0 +1,10 @@
+---
+    - name: Install firewalld
+      package: firewalld
+      state: latest
+    
+    - name: Allow SSH on firewalld
+      firewalld:
+        service: ssh
+        permanent: yes
+        state: enabled

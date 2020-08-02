@@ -1,0 +1,17 @@
+mysql_pkgs:
+  - epel-release
+  - mysql-server
+  - mysql-devel 
+  - gcc 
+  - python-devel
+  - python-setuptools
+  - python-pip
+  
+mysql_pip_modules:
+  - MySQL-python
+  - PyMySQL
+
+mysql_port: 3306
+mysql_bind_address: "127.0.0.1"
+mysql_rpm: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+mysql_custom_conf: /etc/my.cnf.d/custom_my.cnf

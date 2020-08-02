@@ -1,0 +1,48 @@
+- name: update root password on localhost
+  mysql_user:
+    name: root
+    host: localhost
+    password: "{{ mysql_root_password }}"
+    state: present
+
+- name: change password for all root accounts
+  mysql_user:
+    name: root
+    host: "{{ item }}"
+    login_password: "{{ mysql_root_password }}"
+    password: "{{ mysql_root_password }}"
+    state: present
+  with_items:
+    - "{{ ansible_hostname }}"
+    - 127.0.0.1
+    - ::1
+
+- name: Copy templated conf files 
+  template:
+    src: "custom_my.cnf.j2"
+    dest: "{{ mysql_custom_conf }}"
+    owner: root
+    group : root
+    mode: "{{ item.mode | default(644) }}"
+  notify:
+    - Restart MySQL
+
+- name: Ensure Anonymous user(s) are not in the database
+  mysql_user:
+    name: ''
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    host: "{{ item }}"
+    state: absent
+  with_items:
+    - localhost
+    - "{{ ansible_hostname }}"
+ 
+- name: Remove the test database
+  mysql_db:
+    name: test
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    state: absent
+  notify:
+    - Restart MySQL

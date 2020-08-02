@@ -1,0 +1,26 @@
+---
+
+ - name: Install apache
+   package:
+    name: httpd
+    state: present
+
+ - name: Allow HTTP and HTTPS in firewalld
+   firewalld:
+    service: "{{ item }}"
+    permanent: yes
+    state: enabled
+   with_items:
+      - http
+      - https
+
+ - name: Start httpd on startup
+   service:
+    name: httpd
+    state: started
+    enabled: yes
+  
+ - name: Include PHP task
+   include_tasks: 
+    file: php.yml
+   when: ansible_distribution == "CentOS"

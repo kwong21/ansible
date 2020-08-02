@@ -1,0 +1,21 @@
+- name: include rpm for MySQL
+  yum:
+    name: 
+      - "{{ mysql_rpm }}"
+    state: present
+
+- name: Install the MySQL packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ mysql_pkgs }}"
+
+- name: install Python MySQLB module
+  pip:
+    name: "{{ mysql_pip_modules }}"
+    state: present
+
+- name: start mysql
+  service:
+    name: mysql
+    state: started

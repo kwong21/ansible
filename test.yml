@@ -1,6 +1,0 @@
-- name: Test inventory file
-  hosts: test
-  become: yes
-  tasks:
-    - name: Ping
-      ping:

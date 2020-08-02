@@ -1,5 +1,5 @@
 ---
-- hosts: baremetal
+- hosts: all
   become: yes
   roles:
     - role: create_user
@@ -7,3 +7,6 @@
       
     - role: fail2ban
       tags: [fail2ban]
+    
+    - role: firewalld
+      tags: [firewalld]
