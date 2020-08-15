@@ -1,0 +1,9 @@
+---
+- hosts: apache_webservers
+  become: yes
+  roles:
+    - role: apache
+      tags: [apache]
+        
+    - role: mysql
+      tags: [mysql]

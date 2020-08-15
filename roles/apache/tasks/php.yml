@@ -2,24 +2,22 @@
 
  - name: Install RPM for Remi repo
    yum: 
-    name:
-     - "{{ remi_url }}"
-   state: present
+    name: "{{ remi_url }}"
+    state: installed
 
  - name: Install common PHP 71 and commin libs
    yum:
-    name: "{{ item }}"
+    name:
+        - php
+        - php-common
+        - php-cli 
+        - php-pear 
+        - php-pdo 
+        - php-mysqlnd 
+        - php-gd 
+        - php-mbstring 
+        - php-mcrypt 
+        - php-xml
     enablerepo: remi, remi-php71
-   with_items:
-    - php
-    - php-common
-    - php-cli 
-    - php-pear 
-    - php-pdo 
-    - php-mysqlnd 
-    - php-gd 
-    - php-mbstring 
-    - php-mcrypt 
-    - php-xml
    notify:
     - Restart Apache

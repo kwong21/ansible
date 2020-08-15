@@ -1,0 +1,14 @@
+stages:
+ - lint
+ - deploy
+
+lint-playbooks:
+ stage: lint
+ image: 
+    name: cytopia/ansbile-lint:latest
+    entrypoint: ["/bin/sh", "-c"]
+ script:
+    - ansible-lint *yml
+ only:
+    - merge_requests
+    - master

@@ -1,7 +1,8 @@
 ---
     - name: Install firewalld
-      package: firewalld
-      state: latest
+      package: 
+        name: firewalld
+        state: installed
     
     - name: Allow SSH on firewalld
       firewalld:
