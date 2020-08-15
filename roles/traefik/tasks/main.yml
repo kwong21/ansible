@@ -37,8 +37,8 @@
     "--api.dashboard=true",
     "--api.insecure=true",
     # Providers
-    "--providers.docker=true", 
-    "--providers.docker.exposedbydefault=false", 
+    "--providers.docker=true",
+    "--providers.docker.exposedbydefault=false",
     # Entrypoints
     "--entrypoints.web.address=:80",
     "--entryPoints.webs-secure.address=:443",

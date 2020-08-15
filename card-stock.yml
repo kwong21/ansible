@@ -7,7 +7,7 @@
         msg: "Memcached server: {{ groups['memcache'][0] }}"
   tags:
     - debug
-  
+
 - name: Install Docker on hosts
   hosts: card_stock
   become: yes
@@ -16,14 +16,14 @@
   roles:
     - docker
   tags:
-    - dependencies 
+    - dependencies
 
 - name: Deploy Traefik container for reverse proxy
   hosts: card_stock
   become: yes
   roles:
     - traefik
-  tags: 
+  tags:
     - traefik
 
 - name: Deply card-stock application
@@ -64,7 +64,6 @@
     #       - name: internal
     #   tags:
     #     - deploy_mysql_container
-    
     - name: Create directories for application
       file:
         path: "{{ item }}"
@@ -96,7 +95,7 @@
           traefik.http.routers.card-stock.rule: "Host(`{{ hostname }}`)"
           traefik.http.routers.card-stock.tls: "true"
           traefik.http.routers.card-stock.tls.certresolver: "le"
-          traefik.docker.network: "traefik"    
+          traefik.docker.network: "traefik"
         networks:
           - name: traefik
       tags:
@@ -111,4 +110,4 @@
   roles:
     - memcache
   tags:
-    - deploy_memcached 
+    - deploy_memcached
