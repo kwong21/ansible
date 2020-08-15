@@ -1,11 +1,11 @@
 ---
-    - name: Install firewalld
-      package: 
-        name: firewalld
-        state: installed
-    
-    - name: Allow SSH on firewalld
-      firewalld:
-        service: ssh
-        permanent: yes
-        state: enabled
+- name: Install firewalld
+  package:
+    name: firewalld
+    state: installed
+
+- name: Allow SSH on firewalld
+  firewalld:
+    service: ssh
+    permanent: yes
+    state: enabled

@@ -1,15 +1,14 @@
 ---
-  
 - name: Enable epel-release
   package:
     name: epel-release
-    state: latest
+    state: present
   when: ansible_distribution == "CentOS"
 
 - name: Install fail2ban from repo
   package:
     name: fail2ban
-    state: latest
+    state: present
 
 - name: Enable fail2ban service
   service:

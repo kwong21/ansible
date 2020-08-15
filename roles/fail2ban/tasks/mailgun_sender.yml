@@ -1,5 +1,4 @@
 ---
-
 - name: Include the Mailgun-Sender vars
   include_vars:
     file: mailgun_sender.yml
@@ -12,20 +11,20 @@
     path: "{{ mailgun_sender_install_path }}"
     state: directory
     mode: '0755'
-  
+
 - name: Check if Mailgun-Sender binary exists
   stat:
     path: "{{ mailgun_sender_install_path }}/{{ mailgun_sender_binary }}"
   register: mailgun_sender
 
 - name: Get latest binary sha1sum file
-  get_url: 
+  get_url:
     url: "{{ shibatek_release_bucket }}/{{ mailgun_sha1_source }}"
     dest: /tmp/
   when: mailgun_sender.stat.exists
 
 - name: Compare sha1sum of existing binary to latest
-  shell: 
+  shell:
     cmd: "cd {{ mailgun_sender_install_path }} ; cat /tmp/{{ mailgun_sha1_source }}| sha1sum -c -"
   register: mailgun_sender_sha1
   when: mailgun_sender.stat.exists
@@ -53,10 +52,10 @@
   template:
     src: mailgun_sender/mailgun_conf.json.j2
     dest: "{{ mailgun_sender_install_path }}/mailgun_conf.json"
-  
+
 - name: Configure Mailgun-Sender fail2ban action
   template:
     src: mailgun_sender/mailgun.conf.j2
     dest: /etc/fail2ban/action.d/mailgun.conf
-  notify: 
+  notify:
     - Restart fail2ban

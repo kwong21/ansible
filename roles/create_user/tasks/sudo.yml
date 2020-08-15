@@ -9,10 +9,10 @@
     state: present
 
 - name: disallow root SSH access
-  lineinfile: 
+  lineinfile:
     dest: /etc/ssh/sshd_config
     regex: "^PermiteRootLogin"
     line: "PermitRootLogin no"
     state: present
-  notify: 
+  notify:
     - restart ssh
