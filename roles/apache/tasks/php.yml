@@ -1,7 +1,7 @@
 ---
 
  - name: Install RPM for Remi repo
-   yum: 
+   yum:
     name: "{{ remi_url }}"
     state: installed
 
@@ -10,13 +10,13 @@
     name:
         - php
         - php-common
-        - php-cli 
-        - php-pear 
-        - php-pdo 
-        - php-mysqlnd 
-        - php-gd 
-        - php-mbstring 
-        - php-mcrypt 
+        - php-cli
+        - php-pear
+        - php-pdo
+        - php-mysqlnd
+        - php-gd
+        - php-mbstring
+        - php-mcrypt
         - php-xml
     enablerepo: remi, remi-php71
    notify:

@@ -4,6 +4,6 @@
   roles:
     - role: apache
       tags: [apache]
-        
+
     - role: mysql
       tags: [mysql]

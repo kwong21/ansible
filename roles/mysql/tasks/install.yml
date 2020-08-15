@@ -1,6 +1,6 @@
 - name: include rpm for MySQL
   yum:
-    name: 
+    name:
       - "{{ mysql_rpm }}"
     state: present
 

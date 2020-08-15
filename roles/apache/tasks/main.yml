@@ -19,8 +19,8 @@
     name: httpd
     state: started
     enabled: yes
-  
+
  - name: Include PHP task
-   include_tasks: 
+   include_tasks:
     file: php.yml
    when: ansible_distribution == "CentOS"
