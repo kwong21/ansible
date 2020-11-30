@@ -1,3 +1,6 @@
 *.retry
 *pycache*
 .venv
+*.pyc
+
+production.ini
