@@ -8,5 +8,7 @@
     - role: fail2ban
       tags: [fail2ban]
 
-    - role: firewalld
-      tags: [firewalld]
+    - role: iptables
+      tags: [iptables]
+    #- role: firewalld
+    #  tags: [firewalld]

@@ -1,0 +1,15 @@
+---
+- name: Download offical Jenkins repo
+  get_url:
+    url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+
+- name: Import jenkins.io.key from url
+  rpm_key:
+    state: present
+    key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+- name: Upgrade packages
+  package:
+    name: '*'
+    state: latest

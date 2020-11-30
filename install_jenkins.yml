@@ -1,0 +1,9 @@
+---
+- hosts: jenkins
+  become: yes
+  roles:
+    - role: reverse_proxy_nginx
+      tags: [nginx]
+
+    - role: jenkins
+      tags: [jenkins]

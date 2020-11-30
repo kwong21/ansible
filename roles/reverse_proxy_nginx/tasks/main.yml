@@ -1,0 +1,50 @@
+---
+- name: Install nginx for reverse proxy
+  package:
+    name: 
+      - epel-release
+      - nginx
+
+- name: NGINX allow port 80 - INPUT
+  iptables: 
+    action: insert
+    chain: INPUT
+    protocol: tcp
+    destination_port: '80'
+    match: state
+    ctstate: NEW,ESTABLISHED
+    jump: ACCEPT
+    comment: 'NGINX - allow INPUT port 80'
+
+- name: NGINX allow port 80 - OUTPUT
+  iptables:
+    action: insert
+    chain: OUTPUT
+    protocol: tcp
+    source_port: '80'
+    match: state
+    ctstate: ESTABLISHED
+    jump: ACCEPT
+    comment: 'NGINX - allow OUTPUT port 80'
+
+- name: NGINX allow port 443 - INPUT
+  iptables: 
+    action: insert
+    chain: INPUT
+    protocol: tcp
+    destination_port: '443'
+    match: state
+    ctstate: NEW,ESTABLISHED
+    jump: ACCEPT
+    comment: 'NGINX - allow INPUT port 443'
+
+- name: NGINX allow port 443 - OUTPUT
+  iptables:
+    action: insert
+    chain: OUTPUT
+    protocol: tcp
+    source_port: '443'
+    match: state
+    ctstate: ESTABLISHED
+    jump: ACCEPT
+    comment: 'NGINX - allow OUTPUT port 443'

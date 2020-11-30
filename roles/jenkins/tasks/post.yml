@@ -1,0 +1,33 @@
+---
+- name: Create NGINX log directory for jenkins
+  file:
+    path: /var/log/nginx/jenkins
+    state: directory
+  
+- name: Copy local config file to /etc/nginx/conf.d/
+  copy:
+    src: 00-jenkins.conf
+    dest: /etc/nginx/conf.d/
+
+- name: ALLOW packets to port 8080 from loopback
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    in_interface: lo
+    destination_port: '8080'
+    jump: ACCEPT
+    comment: Jenkins - allow loopback to port 8080
+
+- name: DROP packets to port 8080
+  iptables: 
+    chain: INPUT
+    protocol: tcp
+    destination_port: '8080'
+    jump: DROP
+    comment: Jenkins - drop packets to port 8080
+
+- name: Start jenkins
+  service:
+    name: jenkins
+    state: started
+  

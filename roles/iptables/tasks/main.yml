@@ -1,0 +1,45 @@
+---
+
+- name: Install iptables
+  package:
+    name: iptables-services
+    state: installed
+
+- name: Stop firewalld
+  service:
+    name: firewalld
+    state: stopped
+
+- name: Allow loopback in-interface
+  iptables:
+    chain: INPUT
+    in_interface: lo
+    jump: ACCEPT
+    comment: "Base - Allow loopback in-interface"
+
+- name: Allow loopback out-interface
+  iptables:
+    chain: OUTPUT
+    out_interface: lo
+    jump: ACCEPT
+    comment: "Base - Allow loopack out-interface"
+
+- name: Allow SSH INPUT connections
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: '22'
+    match: conntrack
+    ctstate: NEW,ESTABLISHED
+    jump: ACCEPT
+    comment: "Base - allow incomming SSH connections"
+
+- name: Allow SSH OUTPUT connections
+  iptables:
+    chain: OUTPUT
+    protocol: tcp
+    destination_port: '22'
+    match: conntrack
+    ctstate: ESTABLISHED
+    jump: ACCEPT
+    comment: "Base - allow outgoing SSH connection"

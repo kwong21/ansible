@@ -1,0 +1,9 @@
+---
+# Set up requirements
+- include_tasks: pre.yml
+
+# Set up jenkins
+- include_tasks: install.yml
+
+# Post set up tasks
+- include_tasks: post.yml
