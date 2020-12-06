@@ -1,0 +1,6 @@
+---
+- hosts: certbot
+  become: yes
+  roles:
+    - role: certbot
+      tags: [certbot]
