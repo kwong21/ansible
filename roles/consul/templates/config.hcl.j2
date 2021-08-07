@@ -1,0 +1,17 @@
+datacenter = "{{ consul.dc }}"
+data_dir = "/opt/consul"
+bind_addr = "{{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}"
+bootstrap_expect = {{ groups['consul-server'] | length }}
+retry_join = [
+"{{ groups['consul-server'] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) | join(',') }}"
+]
+{% if consul.server %}
+ui_config {
+   enabled = true
+}
+server = true
+{% endif %}
+
+performance {  
+   raft_multiplier = 1
+}

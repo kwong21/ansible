@@ -6,3 +6,4 @@ plugins/mitogen-0.2.9/mitogen/*.pyc
 production.ini
 
 secrets/*
+.ansible-env/*

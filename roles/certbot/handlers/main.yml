@@ -1,0 +1,4 @@
+---
+
+- name: refresh snap core
+  command: snap refresh core

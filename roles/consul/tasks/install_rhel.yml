@@ -1,0 +1,16 @@
+---
+
+- name: yum install yum-utils
+  yum:
+    name: yum-utils
+    state: present
+
+- name: Add HashiCorp repo for CentOS OS
+  command: "yum-config-manager --add-repo={{ repo_url }}"
+  args:
+    creates: /etc/yum.repos.d/hashicorp.repo
+
+- name: yum install consul
+  yum:
+    name: consul
+    state: present

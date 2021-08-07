@@ -3,12 +3,14 @@
   file:
     path: /opt/traefik
     state: directory
+    mode: 0644
 
 - name: Create /opt/traefik/logs/
   file:
     path: /opt/traefik/logs
     state: directory
-
+    mode: 0644
+    
 - name: Create /opt/traefik/acme.json
   file:
     path: /opt/traefik/acme.json

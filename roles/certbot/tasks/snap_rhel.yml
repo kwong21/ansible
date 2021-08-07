@@ -1,0 +1,28 @@
+---
+
+- name: install epel-release repo
+  ansible.builtin.package:
+    name: epel-release
+    state: present
+  
+- name: install snapd
+  ansible.builtin.package: 
+    name: snapd
+    state: present
+
+- name: enable snadp.socket and do a daemon reload
+  ansible.builtin.systemd:
+    state: started
+    name: snapd.socket
+    daemon_reload: yes
+
+- name: create symlink /var/lib/snapd/snap to /snap for classic support
+  ansible.builtin.file:
+    src: /var/lib/snapd/snap
+    dest: /snap
+    state: link
+
+- name: ensure have latest of snap
+  community.general.snap:
+    name: core
+  notify: refresh snap core

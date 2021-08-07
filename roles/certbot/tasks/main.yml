@@ -1,39 +1,13 @@
 ---
+
 - name: Include secret vars
   include_vars: ../../secrets/cloudflare/vars.yml
 
-- name: Enable epel-release
-  package:
-    name: epel-release
-    state: present
+- include_tasks: snap_rhel.yml
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
-- name: Install required packages for Certbot
-  package:
-    name:
-    - certbot
-    - python-pip
-    state: present
+- include_tasks: install.yml
 
-- name: Install CloudFlare Certbot plugin
-  pip:
-    name: certbot-dns-cloudflare
+- include_tasks: configure.yml
 
-- name: Create path for secret file
-  file:
-    path: ~/.secrets/certbot
-    state: directory
-    owner: root
-    group: root
-
-- name: Create CloudFlare config file
-  copy:
-    dest: ~/.secrets/certbot/cloudflare.ini
-    content: "dns_cloudflare_api_token = {{ dns_cloudflare_api_token }}"
-    mode: '0600'
-
-- name: Create cronjob for domains managed by Certbot
-  cron:
-    name: "Renew existing certs with Certbot"
-    minute: "0"
-    hour: "1"
-    job: "certbot renew"
+# - include_tasks: post.yml

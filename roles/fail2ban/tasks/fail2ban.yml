@@ -19,3 +19,4 @@
   copy:
     src: fail2ban/jail.local
     dest: /etc/fail2ban/jail.d/01-sshd.conf
+    mode: 0644

@@ -1,9 +1,13 @@
 ---
+- name: Install epel-release for reverse proxy
+  package:
+    name: 
+      epel-release
+
 - name: Install nginx for reverse proxy
   package:
     name: 
-      - epel-release
-      - nginx
+      nginx
 
 - name: NGINX allow port 80 - INPUT
   iptables: 

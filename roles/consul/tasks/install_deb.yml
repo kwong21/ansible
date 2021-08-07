@@ -1,0 +1,15 @@
+---
+
+- name: Add Hashicorp repo for Ubuntu/Debian OS
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
+    state: present
+
+- name: Run apt-get update
+  apt:
+    update_cache: yes
+
+- name: apt-get install consul
+  apt:
+    name: consul
+    update_cache: yes

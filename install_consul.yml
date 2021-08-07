@@ -1,0 +1,7 @@
+---
+- hosts: consul
+  gather_facts: True
+  become: yes
+  roles:
+    - role: consul
+      tags: [consul]

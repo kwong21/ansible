@@ -3,11 +3,13 @@
   file:
     path: /var/log/nginx/jenkins
     state: directory
+    mode: 0644
   
 - name: Copy local config file to /etc/nginx/conf.d/
   copy:
     src: 00-jenkins.conf
     dest: /etc/nginx/conf.d/
+    mode: 0644
 
 - name: ALLOW packets to port 8080 from loopback
   iptables:

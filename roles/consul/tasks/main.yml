@@ -1,0 +1,12 @@
+---
+
+# Install consul
+- include_tasks: install_deb.yml
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- include_tasks: install_rhel.yml
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- include_tasks: configure.yml
+
+- include_tasks: post.yml

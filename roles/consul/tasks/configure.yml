@@ -1,0 +1,54 @@
+---
+- name: check if encryption key has already been created
+  state:
+    path: /etc/consul.d/encryption_key.hcl
+  register: encryption_key
+
+- name: create consul encryption key
+  command: "consul keygen"
+  register: consul_key
+  when: not encryption_key.stat.exists 
+
+- name: set encryption as fact
+  set_fact:
+    encryption_key: "{{ consul_key.stdout }}"
+  when: not encryption_key.stat.exists
+
+- name: create file containing encryption key
+  ansible.builtin.template:
+    src: encryption_key.j2
+    dest: /etc/consul.d/encryption_key.hcl
+    owner: consul
+    group: consul
+    mode: 0640
+
+- name: render default template for consul
+  ansible.builtin.template:
+    src: config.hcl.j2
+    dest: /etc/consul.d/consul.hcl
+    owner: consul
+    group: consul
+    mode: 0640
+
+- name: update systemd file with service type based on cluster size
+  ansible.builtin.lineinfile:
+    path: /usr/lib/systemd/system/consul.service
+    insertbefore: '^EnvironmentFile=/etc/consul.d/consul.env$'
+    line: Type={{ 'notify' if groups['consul-server'] | length > 3 else 'exec' }}
+
+- name: remove env file from systemd
+  ansible.builtin.lineinfile:
+    path: /usr/lib/systemd/system/consul.service
+    regex: '^EnvironmentFile=/etc/consul.d/consul.env$'
+    state: absent
+
+- name: force systemd to reread configs
+  ansible.builtin.systemd:
+    daemon_reload: yes
+
+- name: ensure permissions on data dir
+  ansible.builtin.file:
+    path: /etc/consul.d
+    owner: consul
+    group: consul
+    recurse: yes

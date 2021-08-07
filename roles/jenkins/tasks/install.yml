@@ -4,6 +4,7 @@
       name: 
       - jenkins
       - java-1.8.0-openjdk-devel
+      - git
       state: present
   
   - name:  Force systemd to reread configs

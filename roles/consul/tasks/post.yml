@@ -1,0 +1,10 @@
+---
+  - name: install nginx for reverse proxy
+    include_role:
+      name: nginx
+    
+  - name: start consul server
+    ansible.builtin.service:
+      name: consul
+      state: started
+      enabled: yes

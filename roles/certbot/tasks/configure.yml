@@ -1,0 +1,17 @@
+---
+
+- name: create default config path
+  command: certbot
+  args:
+    creates: /etc/letsencrypt/
+
+- name: add cloudflare credentials to /etc/letsencrypt/cloudflareapi.cfg
+  ansible.builtin.template:
+    src: cloudflareapi.cfg.j2
+    dest: /etc/letsencrypt/cloudflareapi.cfg
+    mode: 0600
+
+- name: install cloudflare-dns plugin
+  community.general.snap:
+    name: certbot-dns-cloudflare
+    

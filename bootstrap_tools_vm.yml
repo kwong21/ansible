@@ -1,7 +1,11 @@
 ---
-- hosts: certbot
+- hosts: tools
   gather_facts: True
   become: yes
   roles:
     - role: certbot
       tags: [certbot]
+
+    - role: consul
+      tags: [consul]
+    
